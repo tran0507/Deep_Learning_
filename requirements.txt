@@ -4,6 +4,7 @@ numpy==2.0.1
 pandas==2.2.2
 scikit_learn==1.2.2
 seaborn==0.13.2
+tensorflow==2.17.0
 
 """ steps to populate the requirements.txt file
 1. If requirements.txt does not exist in your directory, follow the steps below:
