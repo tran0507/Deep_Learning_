@@ -1,4 +1,4 @@
-Deep Learning
+Deep Learning - 
 ==============================
 
 Restructuring your ML code for production deployment
@@ -19,8 +19,6 @@ Project Organization
     │
     ├── reference         <- Data dictionaries, manuals, and all other explanatory materials.
     │
-    ├── report            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
     │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
     │                         generated with `pip freeze > requirements.txt`
@@ -43,7 +41,7 @@ Project Organization
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
     │       └── visualize.py
     │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+
 
 
 --------

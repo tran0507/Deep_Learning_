@@ -17,40 +17,40 @@ import tensorflow as tf
 import pickle
 
 
-def create_model(input_shape, num_classes):
+def create_compile_model(layers,learning_rate=0.001, activation=None):
     try: 
-        # Define the model architecture
-        model = tf.keras.Sequential([
-                tf.keras.layers.Dense(64, activation='relu', input_shape=input_shape),
-                tf.keras.layers.Dense(32, activation='relu'),
-                tf.keras.layers.Dense(num_classes, activation='softmax')
-            ])
-        return model
 
-    except Exception as e:
-        logging.error(" Error in processing data: {}". format(e))
-
-def compile_model(model,learning_rate=0.009):
-    try: 
+        tf.keras.utils.set_random_seed(42)
+        model = tf.keras.Sequential()
+        for i, layer_size in enumerate(layers): 
+            if i==len(layers)-1: 
+                model.add(tf.keras.layers.Dense(layer_size,activation=activation ))
+            else: 
+                model.add(tf.keras.layers.Dense(layer_size))
+        
         # Compile the model
-        model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
-                  loss='sparse_categorical_crossentropy',
-                  metrics=['accuracy'])
+        model.compile(
+                    loss=tf.keras.losses.BinaryCrossentropy(),
+                    optimizer=tf.keras.optimizers.SGD(learning_rate=learning_rate),
+                    metrics=['accuracy'])
+    
         return model
 
     except Exception as e:
         logging.error(" Error in processing data: {}". format(e))
 
-def train_model(model, x_train, y_train, epochs=50, batch_size=32, validation_split=0.2):
+
+def train_model(model, x_train, y_train, epochs=50, callbacks=None):
     try:
        
         print("\n Start train model")
-        history = model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size, validation_split=validation_split)
         
+        model.fit(x_train, y_train, epochs=epochs, verbose=0, callbacks=callbacks)
+
         # Save the trained model
         with open('model/deeplearning_tf.pkl', 'wb') as f:
             pickle.dump(model, f)
-        return history
+        return model
 
     
     except Exception as e:
