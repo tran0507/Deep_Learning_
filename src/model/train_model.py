@@ -16,32 +16,36 @@ warnings.filterwarnings("ignore")
 import tensorflow as tf
 import pickle
 
-# 
 
-def create_complile_model(learning_rate):
+def create_model(input_shape, num_classes):
     try: 
-        #Creates and compiles the TensorFlow model."""
-        tf.keras.utils.set_random_seed(42)
+        # Define the model architecture
         model = tf.keras.Sequential([
-             tf.keras.layers.Dense(1), 
-             tf.keras.layers.Dense(1, activation = 'sigmoid') 
+                tf.keras.layers.Dense(64, activation='relu', input_shape=input_shape),
+                tf.keras.layers.Dense(32, activation='relu'),
+                tf.keras.layers.Dense(num_classes, activation='softmax')
             ])
-        model.compile(loss=tf.keras.losses.BinaryCrossentropy(),
-                  optimizer=tf.keras.optimizers.SGD(learning_rate=learning_rate),
+        return model
+
+    except Exception as e:
+        logging.error(" Error in processing data: {}". format(e))
+
+def compile_model(model,learning_rate=0.009):
+    try: 
+        # Compile the model
+        model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
+                  loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
         return model
 
     except Exception as e:
         logging.error(" Error in processing data: {}". format(e))
 
-def train_model(model, x_train,y_train,epochs=50, lr_scheduler=None):
+def train_model(model, x_train, y_train, epochs=50, batch_size=32, validation_split=0.2):
     try:
        
-        if lr_scheduler:
-            history = model.fit(x_train, y_train, epochs=epochs, verbose=0, callbacks=[lr_scheduler])
-        else:
-            history = model.fit(x_train, y_train, epochs=epochs, verbose=0)
-        
+        print("\n Start train model")
+        history = model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size, validation_split=validation_split)
         
         # Save the trained model
         with open('model/deeplearning_tf.pkl', 'wb') as f:

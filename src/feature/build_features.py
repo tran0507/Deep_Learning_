@@ -5,9 +5,10 @@ from sklearn.preprocessing import StandardScaler
 #to split the dataset
 from sklearn.model_selection import train_test_split
 # 
-def create_features(df):
+def process_data(df):
     try:
        
+        print("\n start process data")
         #Separating target variable and other variables
         Y= df.Attrition
         X= df.drop(columns = ['Attrition'])
@@ -17,10 +18,17 @@ def create_features(df):
         X_scaled=sc.fit_transform(X)
         X_scaled=pd.DataFrame(X_scaled, columns=X.columns)
 
-        #splitting the data
-        x_train,x_test,y_train,y_test=train_test_split(X_scaled,Y,test_size=0.2,random_state=1,stratify=Y)
+        return X_scaled,Y
+    
+    except Exception as e:
+        logging.error(" Error in processing data: {}". format(e))
 
-        return x_train,x_test,y_train,y_test
+def split_data(X, Y, test_size=0.2, random_state=42):
+    try:
+        # Split the data into train and test sets
+        x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=test_size, random_state=random_state)
+
+        return x_train, x_test, y_train, y_test
     
     except Exception as e:
         logging.error(" Error in processing data: {}". format(e))
