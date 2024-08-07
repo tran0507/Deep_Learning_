@@ -45,8 +45,10 @@ Project Organization
 
 
 --------
+Steps to run the program:
+1. From VS Code UI, create a new Terminal by clicking ... and choose New Terminal from the menu 
+2. Go to Terminal and type 'python main.py' and enter 
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
 
 
 Steps to Push code from VS code to Github.

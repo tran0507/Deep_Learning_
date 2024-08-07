@@ -15,18 +15,22 @@ import warnings
 warnings.filterwarnings("ignore")
 import tensorflow as tf
 import pickle
+import matplotlib.pyplot as plt
+import numpy as np
 
 
-def create_compile_model(layers,learning_rate=0.001, activation=None):
+def create_compile_model(layers,learning_rate=0.001,activation=None):
     try: 
 
         tf.keras.utils.set_random_seed(42)
-        model = tf.keras.Sequential()
+        model=None
+        model = tf.keras.Sequential()        
         for i, layer_size in enumerate(layers): 
             if i==len(layers)-1: 
-                model.add(tf.keras.layers.Dense(layer_size,activation=activation ))
-            else: 
                 model.add(tf.keras.layers.Dense(layer_size))
+            else: 
+                model.add(tf.keras.layers.Dense(layer_size,activation=activation ))
+         
         
         # Compile the model
         model.compile(
@@ -41,16 +45,14 @@ def create_compile_model(layers,learning_rate=0.001, activation=None):
 
 
 def train_model(model, x_train, y_train, epochs=50, callbacks=None):
-    try:
-       
-        print("\n Start train model")
-        
-        model.fit(x_train, y_train, epochs=epochs, verbose=0, callbacks=callbacks)
+    try:       
+ 
+        history=model.fit(x_train, y_train, epochs=epochs, verbose=0, callbacks=callbacks)
 
         # Save the trained model
         with open('model/deeplearning_tf.pkl', 'wb') as f:
             pickle.dump(model, f)
-        return model
+        return history, model
 
     
     except Exception as e:

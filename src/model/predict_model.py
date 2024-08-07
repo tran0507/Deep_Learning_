@@ -7,11 +7,10 @@ from sklearn.metrics import accuracy_score
 # 
 def evaluate_model(model, x_train,y_train,x_test,y_test):
     try:
-        print("\n Start evaluate model")
-              
+                    
         # Evaluate the model
-        train_accuracy = model.evaluate(x_train, y_train, verbose=0)
-        test_accuracy = model.evaluate(x_test, y_test, verbose=0)
+        train_accuracy = model.evaluate(x_train, y_train)
+        test_accuracy = model.evaluate(x_test, y_test)
         return train_accuracy, test_accuracy
     
     
